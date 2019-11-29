@@ -11,11 +11,10 @@
 
 
 def ask_user():
-    """
-    Замените pass на ваш код
-    """
-    pass
-
-    
-if __name__ == "__main__":
+    answer=input('Как дела?')
+    return answer
+ 
+while True:
     ask_user()
+    if ask_user() == 'Хорошо':
+        break

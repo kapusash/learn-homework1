@@ -12,47 +12,51 @@
   бота отвечать, в каком созвездии сегодня находится планета.
 
 """
-import logging
-
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from ephem import *
+import logging
+import datetime
 
-logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
+PROXY = {'proxy_url': 'socks5://t1.learn.python.ru:1080',
+    'urllib3_proxy_kwargs': {'username': 'learn', 'password': 'python'}}
+
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
-                    filename='bot.log'
-)
+                    filename='bot1.log'
+                    )
+now = str(datetime.datetime.now())
 
-
-PROXY = {
-    'proxy_url': 'socks5://t1.learn.python.ru:1080',
-    'urllib3_proxy_kwargs': {
-        'username': 'learn', 
-        'password': 'python'
-    }
-}
-
-
-def greet_user(bot, update):
-    text = 'Вызван /start'
-    print(text)
-    update.message.reply_text(text)
-
-
-def talk_to_me(bot, update):
-    user_text = update.message.text 
-    print(user_text)
-    update.message.reply_text(user_text)
- 
+def planet_ephem(bot, update):
+    user_text = update.message.text.split()
+    planet = user_text[-1]
+    if planet == 'Mars':
+        update.message.reply_text(constellation(Mars(now)))
+    elif planet == 'Neptune':
+        update.message.reply_text(constellation(Neptune(now)))
+    elif planet == 'Mercury':
+        update.message.reply_text(constellation(Mercury(now)))
+    elif planet == 'Venus':
+        update.message.reply_text(constellation(Venus(now)))
+    elif planet == 'Earth':
+        update.message.reply_text(constellation(Earth(now)))
+    elif planet == 'Jupiter':
+        update.message.reply_text(constellation(Jupiter(now)))
+    elif planet == 'Saturn':
+        update.message.reply_text(constellation(Saturn(now)))
+    elif planet == 'Uranus':
+        update.message.reply_text(constellation(Uranus(now)))
+    elif planet == 'Pluto':
+        update.message.reply_text(constellation(Pluto(now)))
 
 def main():
-    mybot = Updater("КЛЮЧ, КОТОРЫЙ НАМ ВЫДАЛ BotFather", request_kwargs=PROXY)
+    mybot = Updater("907371138:AAGn-c7o5in-bBCen9M9FOVsob8XWvgIQbI", request_kwargs=PROXY)
     
-    dp = mybot.dispatcher
-    dp.add_handler(CommandHandler("start", greet_user))
-    dp.add_handler(MessageHandler(Filters.text, talk_to_me))
-    
+    logging.info('Бот запускается')
+
+    dp = mybot.dispatcher 
+    dp.add_handler(CommandHandler('planet', planet_ephem))
+
     mybot.start_polling()
     mybot.idle()
-       
 
-if __name__ == "__main__":
-    main()
+main()

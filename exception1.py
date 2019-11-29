@@ -9,12 +9,20 @@
   и завершала работу при помощи оператора break
     
 """
+question_answer = {
+    "Как дела?": "Хорошо",
+    "Что делаешь?": "Программирую",
+    "Как настроение?": "Отлично!",
+    "Что будет завтра?": "Завтра будет завтра" }
 
-def ask_user():
-    """
-    Замените pass на ваш код
-    """
-    pass
-    
-if __name__ == "__main__":
-    ask_user()
+def ask_user_dict():
+    while True:
+        try:
+            question = input("Введите вопрос: ")
+            print(question_answer.get(question, 'Вопрос отсутствует'))
+        except KeyboardInterrupt:
+            print('Пока')
+            break
+
+ask_user_dict()
+
