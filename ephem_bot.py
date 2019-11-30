@@ -47,6 +47,8 @@ def planet_ephem(bot, update):
         update.message.reply_text(constellation(Uranus(now)))
     elif planet == 'Pluto':
         update.message.reply_text(constellation(Pluto(now)))
+    else:
+        update.message.reply_text('Такой планеты не существует')
 
 def main():
     mybot = Updater("907371138:AAGn-c7o5in-bBCen9M9FOVsob8XWvgIQbI", request_kwargs=PROXY)
